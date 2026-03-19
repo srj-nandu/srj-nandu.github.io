@@ -9,6 +9,7 @@ import Resume from './Components/Resume.jsx'
 import Certificates from './Components/Certificates.jsx'
 import Contact from './Components/Contact.jsx'
 import Footer from './Components/Footer.jsx'
+import MouseCursor from './Components/MouseCursor.jsx'
 import Scroll from './Components/Scroll.jsx'
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <div className="page-shell">
+      <MouseCursor />
       <Scroll />
       <Header
         theme={theme}
