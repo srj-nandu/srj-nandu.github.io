@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import emailjs from '@emailjs/browser'
+import { motion } from 'framer-motion'
+import { cardMotion, sectionMotion, staggerContainer } from './motion.js'
 
 const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
 const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
@@ -22,7 +24,8 @@ function Contact() {
     if (!hasEmailJsConfig) {
       setStatus({
         type: 'error',
-        message: 'EmailJS is not configured yet. Add real service ID, template ID, and public key in the .env file.',
+        message:
+          'EmailJS is not configured yet. Add real service ID, template ID, and public key in the .env file.',
       })
       return
     }
@@ -34,10 +37,6 @@ function Contact() {
     const email = formData.get('email')?.toString().trim() ?? ''
     const message = formData.get('message')?.toString().trim() ?? ''
     const fullName = `${firstName} ${lastName}`.trim() || 'Portfolio visitor'
-    const time = new Date().toLocaleString('en-IN', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    })
 
     setIsSending(true)
     setStatus({ type: '', message: '' })
@@ -47,17 +46,12 @@ function Contact() {
         serviceId,
         templateId,
         {
-          name: fullName,
           from_name: fullName,
-          sender_name: fullName,
           first_name: firstName,
           last_name: lastName,
-          email,
           reply_to: email,
           from_email: email,
-          sender_email: email,
           message,
-          time,
           to_name: 'Sooraj S',
           subject: `Portfolio enquiry from ${fullName}`,
         },
@@ -86,93 +80,88 @@ function Contact() {
   }
 
   return (
-    <section id="contact" className="section contact-section">
-      <div className="contact-intro">
-        <p className="section-tag">Response Section</p>
-        <h2>Tell me what you want to build, repair, or improve.</h2>
-        <p className="contact-lead">
-          This area now works like the pricing or enquiry block in a premium
-          portfolio. It gives visitors a clear next step for freelance work,
-          internships, technical support, or collaborations.
-        </p>
-
-        <div className="contact-note-board">
-          <article className="contact-note-card">
-            <span>Best fit</span>
-            <strong>Portfolio sites, web apps, and technical troubleshooting</strong>
-          </article>
-          <article className="contact-note-card">
-            <span>Response</span>
-            <strong>Share your scope and I will reply with the best route</strong>
-          </article>
-          <article className="contact-note-card">
-            <span>Pricing</span>
-            <strong>Final cost depends on requirements and delivery scope</strong>
-          </article>
-        </div>
-
-        <div className="contact-links-grid">
-          <a className="contact-link-card" href="mailto:srj.nandu@gmail.com">
-            <span>Email</span>
-            <strong>srj.nandu@gmail.com</strong>
-          </a>
-          <a
-            className="contact-link-card"
-            href="https://linkedin.com/in/srjnandu"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span>LinkedIn</span>
-            <strong>linkedin.com/in/srjnandu</strong>
-          </a>
-          <a
-            className="contact-link-card"
-            href="https://github.com/srj-nandu"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span>GitHub</span>
-            <strong>github.com/srj-nandu</strong>
-          </a>
-        </div>
+    <motion.section className="content-section contact-wrap" id="contact" {...sectionMotion}>
+      <div className="section-header">
+        <p className="section-eyebrow">Contact</p>
+        <h2>Let&apos;s build something thoughtful, practical, and beautifully finished.</h2>
       </div>
 
-      <form className="contact-form-card" onSubmit={handleSubmit}>
-        <div className="contact-form-grid">
+      <motion.div
+        className="contact-layout"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.18 }}
+      >
+        <motion.div className="glass-card contact-copy" variants={cardMotion}>
+          <p className="lead-copy">
+            For internships, freelance projects, technical support, or
+            collaborations, you can message me here or reach out directly.
+          </p>
+
+          <div className="contact-links-grid">
+            <a className="contact-link-card" href="mailto:srj.nandu@gmail.com">
+              <span>Email</span>
+              <strong>srj.nandu@gmail.com</strong>
+            </a>
+            <a
+              className="contact-link-card"
+              href="https://linkedin.com/in/srjnandu"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>LinkedIn</span>
+              <strong>linkedin.com/in/srjnandu</strong>
+            </a>
+            <a
+              className="contact-link-card"
+              href="https://github.com/srj-nandu"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>GitHub</span>
+              <strong>github.com/srj-nandu</strong>
+            </a>
+          </div>
+        </motion.div>
+
+        <motion.form className="glass-card contact-form-card" onSubmit={handleSubmit} variants={cardMotion}>
+          <div className="contact-form-grid">
+            <label>
+              <span>First Name</span>
+              <input type="text" name="firstName" placeholder="Your first name" required />
+            </label>
+            <label>
+              <span>Last Name</span>
+              <input type="text" name="lastName" placeholder="Your last name" />
+            </label>
+          </div>
+
           <label>
-            <span>First Name</span>
-            <input type="text" name="firstName" placeholder="Your first name" required />
+            <span>Email</span>
+            <input type="email" name="email" placeholder="you@example.com" required />
           </label>
+
           <label>
-            <span>Last Name</span>
-            <input type="text" name="lastName" placeholder="Your last name" />
+            <span>Project Details</span>
+            <textarea
+              name="message"
+              rows="6"
+              placeholder="Tell me about your idea, role, support need, or collaboration."
+              required
+            />
           </label>
-        </div>
 
-        <label>
-          <span>Email</span>
-          <input type="email" name="email" placeholder="you@example.com" required />
-        </label>
+          <button className="primary-pill contact-submit" type="submit" disabled={isSending}>
+            {isSending ? 'Sending...' : 'Send Message'}
+          </button>
 
-        <label>
-          <span>Tell me about your requirement</span>
-          <textarea
-            name="message"
-            rows="6"
-            placeholder="Share your project, role, support need, or any question."
-            required
-          />
-        </label>
-
-        <button className="button primary contact-submit" type="submit" disabled={isSending}>
-          {isSending ? 'Sending...' : 'Send Message'}
-        </button>
-
-        {status.message ? (
-          <p className={`contact-status ${status.type}`}>{status.message}</p>
-        ) : null}
-      </form>
-    </section>
+          {status.message ? (
+            <p className={`contact-status ${status.type}`}>{status.message}</p>
+          ) : null}
+        </motion.form>
+      </motion.div>
+    </motion.section>
   )
 }
 

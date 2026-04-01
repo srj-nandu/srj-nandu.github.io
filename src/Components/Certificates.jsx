@@ -1,25 +1,31 @@
+import { motion } from 'framer-motion'
 import { certificates } from './projectData.js'
+import { cardMotion, sectionMotion, staggerContainer } from './motion.js'
 
 function Certificates() {
   return (
-    <section id="certificates" className="section">
-      <div className="section-heading">
-        <div>
-          <p className="section-tag">Credentials</p>
-          <h2>Proof, ongoing learning, and placeholders for verified credentials.</h2>
-        </div>
+    <motion.section className="content-section" id="certificates" {...sectionMotion}>
+      <div className="section-header">
+        <p className="section-eyebrow">Proof</p>
+        <h2>Space for certifications, training, and credibility markers.</h2>
       </div>
 
-      <div className="timeline credentials-grid">
+      <motion.div
+        className="card-grid certificate-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {certificates.map((item) => (
-          <article key={item} className="timeline-item credential-card">
-            <p className="card-label">In Progress</p>
-            <h3>Update Credential Slot</h3>
+          <motion.article key={item} className="glass-card certificate-card" variants={cardMotion}>
+            <p className="card-tag">Credential Track</p>
+            <h3>In Progress</h3>
             <p>{item}</p>
-          </article>
+          </motion.article>
         ))}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   )
 }
 

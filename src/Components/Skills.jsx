@@ -1,29 +1,31 @@
+import { motion } from 'framer-motion'
 import { technicalSkills } from './projectData.js'
+import { cardMotion, sectionMotion, staggerContainer } from './motion.js'
 
 function Skills() {
   return (
-    <section id="skills" className="section">
-      <div className="section-heading">
-        <div>
-          <p className="section-tag">Technical Skills</p>
-          <h2>Modern web stack, system-level thinking, and repair expertise.</h2>
-        </div>
+    <motion.section className="content-section" id="skills" {...sectionMotion}>
+      <div className="section-header">
+        <p className="section-eyebrow">Solution Lab</p>
+        <h2>Tools, systems, and technologies that shape the work.</h2>
       </div>
 
-      <div className="skills-grid services-grid">
+      <motion.div
+        className="card-grid skills-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {Object.entries(technicalSkills).map(([category, values]) => (
-          <article key={category} className="info-card service-card">
-            <p className="card-label">Service Area</p>
-            <h3>{category}</h3>
-            <div className="chip-cloud">
-              {values.map((value) => (
-                <span key={value}>{value}</span>
-              ))}
-            </div>
-          </article>
+          <motion.article key={category} className="glass-card info-card" variants={cardMotion}>
+            <p className="card-tag">{category}</p>
+            <h3>{values[0]}</h3>
+            <p>{values.slice(1).join(' • ')}</p>
+          </motion.article>
         ))}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   )
 }
 

@@ -1,52 +1,48 @@
-import { experience, projects, technicalSkills } from './projectData.js'
+import { motion } from 'framer-motion'
+import { cardMotion, sectionMotion, staggerContainer } from './motion.js'
 
 function Portfolio() {
-  const proofItems = [
-    {
-      value: String(projects.length).padStart(2, '0'),
-      label: 'Projects already mapped into this portfolio',
-    },
-    {
-      value: String(Object.keys(technicalSkills).length).padStart(2, '0'),
-      label: 'Skill groups showcased as service cards',
-    },
-    {
-      value: String(experience.length).padStart(2, '0'),
-      label: 'Experience tracks supporting your pitch',
-    },
-  ]
-
-  const reasons = [
-    'Tells people what you do in the first screen',
-    'Feels closer to a premium agency or freelancer landing page',
-    'Keeps your actual work, skills, and contact system intact',
-  ]
-
   return (
-    <section className="section highlight" id="portfolio">
-      <div className="highlight-copy">
-        <p className="section-tag">Portfolio Focus</p>
-        <h2>A stronger “why hire me” section inspired by premium portfolio landing pages.</h2>
-        <p>
-          The original site already had the content. This version reframes it with
-          clearer hierarchy, better contrast, and proof-driven cards so the page
-          feels more intentional and more client-facing.
-        </p>
-        <ul className="highlight-list">
-          {reasons.map((reason) => (
-            <li key={reason}>{reason}</li>
-          ))}
-        </ul>
+    <motion.section className="content-section" id="portfolio" {...sectionMotion}>
+      <div className="section-header">
+        <p className="section-eyebrow">Clients</p>
+        <h2>A portfolio direction built to feel calm, premium, and trustworthy.</h2>
       </div>
-      <div className="proof-grid" aria-label="Portfolio proof">
-        {proofItems.map((item) => (
-          <article key={item.label} className="proof-card">
-            <strong>{item.value}</strong>
-            <span>{item.label}</span>
-          </article>
-        ))}
-      </div>
-    </section>
+
+      <motion.div
+        className="portfolio-showcase"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <motion.article className="glass-card showcase-copy" variants={cardMotion}>
+          <p className="card-tag">Creative Direction</p>
+          <h3>Feel-good presentation with a clear technical voice.</h3>
+          <p>
+            The new layout uses soft gradients, scenic depth, glassmorphism, and
+            spacious typography to make your profile feel more premium. It keeps
+            attention on your strengths instead of overwhelming visitors with
+            disconnected styles.
+          </p>
+        </motion.article>
+
+        <motion.article className="glass-card showcase-metrics" variants={cardMotion}>
+          <div>
+            <strong>Design Mood</strong>
+            <span>Elegant, scenic, and memorable</span>
+          </div>
+          <div>
+            <strong>Core Focus</strong>
+            <span>Full-stack builds with hardware credibility</span>
+          </div>
+          <div>
+            <strong>User Feeling</strong>
+            <span>Confident, curious, and ready to reach out</span>
+          </div>
+        </motion.article>
+      </motion.div>
+    </motion.section>
   )
 }
 
