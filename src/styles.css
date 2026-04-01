@@ -127,12 +127,23 @@ textarea {
 }
 
 .topbar {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 20;
-  backdrop-filter: blur(18px);
-  background: linear-gradient(180deg, rgba(22, 15, 44, 0.82), rgba(22, 15, 44, 0.32));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  width: 100%;
+  z-index: 1000;
+
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 10, 0.95) 0%,
+    rgba(10, 10, 10, 0.85) 40%,
+    rgba(10, 10, 10, 0.6) 70%,
+    rgba(10, 10, 10, 0.3) 100%
+  );
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .topbar-nav {
