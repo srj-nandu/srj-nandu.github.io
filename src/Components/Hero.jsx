@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import heroImage from '../../images/hero.webp'
+import heroImage from '../../images/1.gif'
 
 function Hero() {
   return (
